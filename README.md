@@ -22,12 +22,12 @@ pip install e2b
 
 Development build:
 ```bash
-make e2b:build:dev
+make e2b-build-dev
 ```
 
 Production build:
 ```bash
-make e2b:build:prod
+make e2b-build-prod
 ```
 
 Or run the Python scripts directly:
