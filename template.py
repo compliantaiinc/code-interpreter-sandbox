@@ -16,5 +16,5 @@ template = (
         "libxml2-dev",
         "libhdf5-dev"
     ])
-    .pip_install(['ifcopenshell'])  # Install Python packages
+    .pip_install(['ifcopenshell', 'python-pptx'])  # Install Python packages
 )
