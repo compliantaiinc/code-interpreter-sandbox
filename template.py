@@ -14,7 +14,9 @@ template = (
         "libocct-visualization-dev",
         "libboost-all-dev",
         "libxml2-dev",
-        "libhdf5-dev"
+        "libhdf5-dev",
+        "libreoffice",      # soffice --headless --convert-to pdf
+        "poppler-utils",    # pdftoppm
     ])
     .pip_install(['ifcopenshell', 'python-pptx'])  # Install Python packages
 )
