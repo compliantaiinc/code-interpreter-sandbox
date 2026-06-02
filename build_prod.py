@@ -1,12 +1,21 @@
-from e2b import Template, default_build_logger
-from template import template
+from daytona import CreateSnapshotParams, Resources
+
+from daytona_client import create_or_update_snapshot, get_daytona
+from template import image
+
+SNAPSHOT_NAME = "stepscale-sandbox"
+SNAPSHOT_RESOURCES = Resources(cpu=2, memory=4, disk=4)
 
 
 if __name__ == "__main__":
-    Template.build(
-        template,
-        alias="stepscale-sandbox",
-        cpu_count=2,
-        memory_mb=4096,  # 4 GB RAM
-        on_build_logs=default_build_logger()
+    daytona = get_daytona()
+    create_or_update_snapshot(
+        daytona,
+        CreateSnapshotParams(
+            name=SNAPSHOT_NAME,
+            image=image,
+            resources=SNAPSHOT_RESOURCES,
+        ),
+        on_logs=print,
+        timeout=0,
     )

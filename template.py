@@ -1,22 +1,20 @@
 # template.py
-from e2b import Template
+from daytona import Image
 
-template = (
-    Template()
-    .from_template("code-interpreter-v1")
-    .apt_install([
-        "libocct-data-exchange-dev",
-        "libocct-draw-dev",
-        "libocct-foundation-dev",
-        "libocct-modeling-algorithms-dev",
-        "libocct-modeling-data-dev",
-        "libocct-ocaf-dev",
-        "libocct-visualization-dev",
-        "libboost-all-dev",
-        "libxml2-dev",
-        "libhdf5-dev",
-        "libreoffice",      # soffice --headless --convert-to pdf
-        "poppler-utils",    # pdftoppm
-    ])
-    .pip_install(['ifcopenshell', 'python-pptx'])  # Install Python packages
+APT_PACKAGES = [
+    "libreoffice",  # soffice --headless --convert-to pdf/docx
+    "poppler-utils",  # pdftoppm
+]
+
+_APT_INSTALL = (
+    "apt-get update "
+    f"&& apt-get install -y --no-install-recommends {' '.join(APT_PACKAGES)} "
+    "&& rm -rf /var/lib/apt/lists/*"
+)
+
+image = (
+    Image.debian_slim("3.12")
+    .run_commands(_APT_INSTALL)
+    .pip_install(["python-pptx"])
+    .workdir("/home/daytona")
 )

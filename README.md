@@ -1,57 +1,73 @@
-# ifc
+# code-interpreter-sandbox
 
-E2B sandbox template used as the code interpreter for the main IFC project. Provides an isolated environment for executing user code safely.
+Daytona snapshot for running user code safely — focused on document generation (DOCX/PDF via LibreOffice, PPTX via python-pptx).
 
 ## Setup
 
-You'll need an E2B account and API key. Grab one from [e2b.dev/dashboard](https://e2b.dev/dashboard).
+You'll need a Daytona account and API key. Create one at [app.daytona.io](https://app.daytona.io).
 
-Set your API key:
+Copy the example env file and add your key:
+
 ```bash
-export E2B_API_KEY=your_api_key_here
+cp .env.example .env
+# edit .env and set DAYTONA_API_KEY
 ```
 
-Or throw it in a `.env` file if you prefer.
+Optional overrides can go in `.env.local` (also gitignored).
 
-Install the E2B CLI:
+Install dependencies:
+
 ```bash
-pip install e2b
+pip install -r requirements.txt
 ```
 
 ## Building
 
-Development build:
+Development snapshot:
+
 ```bash
-make e2b-build-dev
+make build-dev
 ```
 
-Production build:
+Production snapshot:
+
 ```bash
-make e2b-build-prod
+make build-prod
 ```
 
 Or run the Python scripts directly:
+
 ```bash
 python build_dev.py
 python build_prod.py
 ```
 
+Builds register pre-built snapshots (`stepscale-sandbox-dev` and `stepscale-sandbox`) with 2 vCPU, 4 GiB RAM, and 3 GiB disk. Snapshot creation logs stream to stdout; set `timeout=0` so large image builds are not cut off.
+
 ## Usage
 
 ```python
-from e2b import Sandbox
+from daytona import CreateSandboxFromSnapshotParams
 
-sandbox = Sandbox.create('ifc')
-# do stuff with your sandbox
+from daytona_client import get_daytona
+
+daytona = get_daytona()
+sandbox = daytona.create(
+    CreateSandboxFromSnapshotParams(snapshot="stepscale-sandbox")
+)
+response = sandbox.process.code_run('print("hello")')
+print(response.result)
 ```
 
 ## Files
 
-- `template.py` - sandbox configuration
-- `build_dev.py` - dev build script
-- `build_prod.py` - prod build script
+- `daytona_client.py` - loads `.env` / `.env.local` and returns a configured Daytona client
+- `template.py` - declarative image definition (apt + pip packages)
+- `build_dev.py` - dev snapshot build script
+- `build_prod.py` - prod snapshot build script
 - `Makefile` - build shortcuts
+- `requirements.txt` - Python dependencies
 
 ## Docs
 
-Check [e2b.dev/docs](https://e2b.dev/docs) for more details on working with E2B sandboxes.
+See [daytona.io/docs](https://www.daytona.io/docs) for sandbox, snapshot, and SDK details.

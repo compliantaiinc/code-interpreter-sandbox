@@ -8,18 +8,11 @@ env/
 venv/
 .venv/
 
-# E2B
-.e2b/
-*.e2b.json
-
 # API Keys
 .env
 .env.local
 *.key
 *.pem
-
-# IFC Files (can be large)
-*.ifc
 
 # IDEs
 .vscode/
