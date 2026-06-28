@@ -1,6 +1,14 @@
 # code-interpreter-sandbox
 
-Daytona snapshot for running user code safely — focused on document generation (DOCX/PDF via LibreOffice, PPTX via python-pptx).
+Daytona snapshot for running user code safely - focused on document/data generation and conversion.
+
+Included in the sandbox image:
+
+- YAML parsing and writing via `PyYAML`
+- DOCX generation/editing via `python-docx`
+- PPTX generation/editing via `python-pptx`
+- Office document conversion via LibreOffice (`soffice --headless`)
+- PDF rasterization via Poppler (`pdftoppm`)
 
 ## Setup
 
